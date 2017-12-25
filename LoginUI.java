@@ -3,7 +3,6 @@ package NotQQ;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -38,9 +37,9 @@ class LoginUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Socket client = new Socket(ip, 14300);
+					Socket client = new Socket(ip, 14300); // 本机和服务端建立socket连接
 					PrintStream out = new PrintStream(client.getOutputStream());
-					out.println(inputname.getText());
+					out.println(inputname.getText()); // 向服务端发送用户名
 					out.println(ip);
 					client.close();
 //					dispose();

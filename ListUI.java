@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.net.Socket;
 import java.util.List;
 
 class ListUI extends JFrame {
@@ -25,7 +22,7 @@ class ListUI extends JFrame {
 		}
 
 		JList list = new JList();
-		list.setListData(users.toArray());
+		list.setListData(users.toArray()); // 加载在线用户列表
 		list.setFixedCellHeight(30);
 		list.setFixedCellWidth(170);
 		JButton flash = new JButton("刷新");
@@ -45,19 +42,19 @@ class ListUI extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		flash.addActionListener(new ActionListener() {
+		flash.addActionListener(new ActionListener() { // 刷新好友列表
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				list.setListData(Server.getUsers().toArray());
 			}
 		});
 
-		buddy.addActionListener(new ActionListener() {
+		buddy.addActionListener(new ActionListener() { // 私聊
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String buddy = list.getSelectedValuesList().toString();
+				String buddy = list.getSelectedValuesList().toString(); // 获取对方用户名
 				ChatUI t = new ChatUI(buddy, me, users.indexOf(me), users.indexOf(buddy.substring(1, buddy.length()-1)));
-				new Thread(t).start();
+				new Thread(t).start(); // 创建窗体,进程后端处理发送和接收消息
 			}
 		});
 
@@ -66,7 +63,7 @@ class ListUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String buddy = "[all]";
 				ChatUI t = new ChatUI(buddy, me, users.indexOf(me), users.indexOf(buddy.substring(1, buddy.length()-1)));
-				new Thread(t).start();
+				new Thread(t).start(); // 同上
 			}
 		});
 	}
