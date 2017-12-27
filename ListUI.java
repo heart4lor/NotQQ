@@ -7,10 +7,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 class ListUI extends JFrame {
-	String server;
 
-	ListUI(List users, String me, String server) {
-		this.server = server;
+	ListUI(List users, String me) {
 
 		setLayout(new FlowLayout());
 		setBounds(600, 300, 250, 500);

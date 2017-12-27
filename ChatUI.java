@@ -1,9 +1,13 @@
 package NotQQ;
 
+import javafx.stage.FileChooser;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,6 +69,26 @@ public class ChatUI extends JFrame implements Runnable {
 			}
 		});
 
+		file.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					JFileChooser jfc = new JFileChooser();
+					int i = jfc.showOpenDialog(null);
+					File f = jfc.getSelectedFile();
+					byte[] b = new byte[(int)f.length()];
+					FileInputStream fi = new FileInputStream(f);
+					fi.read(b);
+					String fstr = new String(b);
+					SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+					String time = df.format(new Date());
+					msgs.add(new Msg(myid, buddyid, time, fstr));
+				} catch (Exception e1) {
+//					e1.printStackTrace();
+				}
+			}
+		});
+
 		setVisible(true);
 //		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	}
@@ -93,6 +117,7 @@ public class ChatUI extends JFrame implements Runnable {
 				for (int i = 0; i < MessageQueue.num[myid]; i++) {
 					String newbuddy = "[" + Server.users.get(MessageQueue.content[myid][i].from) + "]";
 					if (!this.buddy.equals(newbuddy)) { // 如果没有打开和对方的聊天窗口
+						System.out.println(this.buddy + " " + newbuddy);
 						ChatUI t = new ChatUI(newbuddy, me, myid, buddyid); // 创建窗口并开启收发消息进程
 						new Thread(t).start();
 					}
